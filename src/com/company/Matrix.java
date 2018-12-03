@@ -46,14 +46,31 @@ public class Matrix {
     }
 
     void transpose() {
-        Matrix buf = new Matrix(this.lenght, this.arr[lenght][lenght]);
+        int[][] buf = new int[this.lenght][this.lenght];
         for (int i = 0; i < lenght; i++) {
             for (int j = 0; j < lenght; j++) {
-                this.arr[i][j] = buf.arr[j][i];
+                buf[i][j] = this.arr[i][j];
+            }
+        }
+        for (int i = 0; i < lenght; i++) {
+            for (int j = 0; j < lenght; j++) {
+                this.arr[i][j] = buf[j][i];
             }
         }
     }
 
+    boolean is(Matrix m) {
+        boolean is = false;
+        int count = 0;
+        int[][] m_arr = m.getArr();
+        for (int i = 0; i < lenght; i++){
+            for (int j = 0; j < lenght; j++){
+                if(m_arr[i][j] == this.arr[i][j]){count++; }
+            }
+        }
+        if(count == (lenght*lenght)){ is = true;}
+        return is;
+    }
 
     //////////////////////////////////////////Get//////////////////////////
     public int getLength() {
