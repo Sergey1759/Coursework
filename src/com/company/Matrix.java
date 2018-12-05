@@ -13,14 +13,45 @@ public class Matrix {
                 arr[i][j] = arr_buf[count++];
             }
         }
+        this.show();
     }
 
+    private Matrix(int[][] arr_buf) {
+        this.lenght = arr_buf.length;
+        this.arr = arr_buf;
+        this.show();
+    }
+
+    static Matrix create (int[][] arr_buf) {
+        boolean buf = false;
+        int count = 0;
+
+        for(int i = 0; i < arr_buf.length; i++){
+            if(arr_buf[i].length == arr_buf.length){
+                count++;            }
+        }
+        buf = count == arr_buf.length ?  true : false;
+        if(buf){
+            Matrix m = new Matrix(arr_buf);
+            return m;
+        } else {
+            System.out.println("You entered the wrong data");
+            return null;
+        }
+    }
     static Matrix create(int lenght, int... arr_buf) {
-        Matrix m = new Matrix(lenght, arr_buf);
-        return m;
+        if(arr_buf.length == lenght*lenght){
+            Matrix m = new Matrix(lenght, arr_buf);
+            return m;
+        } else {
+            System.out.println("You entered the wrong data");
+            return null;
+        }
+
     }
 
     void show() {
+        System.out.println("");
         for (int i = 0; i < lenght; i++) {
             for (int j = 0; j < lenght; j++) {
                 System.out.print(arr[i][j] + " ");
@@ -35,6 +66,7 @@ public class Matrix {
                 this.arr[i][j] += m.arr[i][j];
             }
         }
+        this.show();
     }
 
     void subtraction(Matrix m) {
@@ -43,6 +75,7 @@ public class Matrix {
                 this.arr[i][j] -= m.arr[i][j];
             }
         }
+        this.show();
     }
 
     void transpose() {
@@ -57,6 +90,7 @@ public class Matrix {
                 this.arr[i][j] = buf[j][i];
             }
         }
+        this.show();
     }
 
     boolean is(Matrix m) {
@@ -71,7 +105,78 @@ public class Matrix {
         if(count == (lenght*lenght)){ is = true;}
         return is;
     }
+    int determinant(){
+        switch (this.lenght){
+            case 1 : {
+                return arr[1][1];
+            }
+            case 2:{
+                int buf = this.arr[0][0]* this.arr[1][1]- this.arr[0][1]* this.arr[1][0] ;
+                return buf;
+            }
+            case 3: {
+                int buf =
+                                (this.arr[0][0]* this.arr[1][1] * this.arr[2][2]) +
+                                (this.arr[0][1]* this.arr[1][2] * this.arr[2][0]) +
+                                (this.arr[0][2]* this.arr[1][0] * this.arr[2][1]) -
+                                (this.arr[0][2]* this.arr[1][1] * this.arr[2][0]) -
+                                (this.arr[0][0]* this.arr[1][2] * this.arr[2][1]) -
+                                (this.arr[0][1]* this.arr[1][0] * this.arr[2][2]);
 
+               // a11·a22·a33 + a12·a23·a31 + a13·a21·a32 - a13·a22·a31 - a11·a23·a32 - a12·a21·a33
+                return buf;
+            }
+
+            default: {
+                System.out.println(" Sorry I do not know how determinants of other matrices are determined");
+                return 0;
+            }
+        }
+    }
+    Matrix algebraic_supplement_help(int s_i,int s_j){
+        int[][] arr =  new int[this.arr.length - 1][this.arr.length - 1];
+        int count_i = 0;
+        int count_j = 0;
+        for(int i = 0; i < this.arr.length-1; i++){
+            for(int j = 0; j < this.arr.length-1; j++){
+                System.out.println("i j = " + i + " " + j);
+                if(s_i != i && s_j != j) { arr[count_i][count_j] = this.arr[i][j];
+                    System.out.println("arr[count_i][count_j] = " + arr[count_i][count_j]);
+                count_j++; } else System.out.println("error");
+            }
+            if(count_j == arr.length - 1){ count_i++; count_j = 0; }
+        }
+        Matrix m1 = Matrix.create(arr);
+        return m1;
+    }
+
+    //////////////////////////////////////////////////////
+    Matrix  inverse_matrix(){
+        int[][] arr =  new int[this.arr.length][this.arr.length];
+        int count = 0;
+        for(int i = 0; i < arr.length; i++){
+            for(int j = 0; j < arr.length; j++){
+                count = i+j % 2 == 0 ?  1 : -1;
+                arr[i][j] = count*(algebraic_supplement_help(i,j)).determinant();
+            }
+        }
+        Matrix m = Matrix.create(arr);
+        return m;
+    }
+
+
+    Matrix  inverse_matrix(){
+        int[][] arr =  new int[this.arr.length][this.arr.length];
+        int count = 0;
+        for(int i = 0; i < arr.length; i++){
+            for(int j = 0; j < arr.length; j++){
+                count = i+j % 2 == 0 ?  1 : -1;
+                arr[i][j] = count*(algebraic_supplement_help(i,j)).determinant();
+            }
+        }
+        Matrix m = Matrix.create(arr);
+        return m;
+    }
     //////////////////////////////////////////Get//////////////////////////
     public int getLength() {
         return this.lenght;
