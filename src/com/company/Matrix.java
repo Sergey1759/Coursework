@@ -133,50 +133,53 @@ public class Matrix {
             }
         }
     }
-    Matrix algebraic_supplement_help(int s_i,int s_j){
-        int[][] arr =  new int[this.arr.length - 1][this.arr.length - 1];
+    private Matrix algebraic_supplement_help(int s_i,int s_j){
+        int[][] my_arr =  new int[this.arr.length - 1][this.arr.length - 1];
         int count_i = 0;
         int count_j = 0;
-        for(int i = 0; i < this.arr.length-1; i++){
-            for(int j = 0; j < this.arr.length-1; j++){
-                System.out.println("i j = " + i + " " + j);
-                if(s_i != i && s_j != j) { arr[count_i][count_j] = this.arr[i][j];
-                    System.out.println("arr[count_i][count_j] = " + arr[count_i][count_j]);
-                count_j++; } else System.out.println("error");
+       // System.out.println("arr.length " +  arr.length);
+        for (int i  = 0; i < arr.length; i++){
+            for (int j  = 0; j < arr.length; j++){
+                if (s_i != i && s_j != j) {
+                   // System.out.println("count_i = " + count_i + " count_j = " + count_j);
+                    if(count_j == this.arr.length-1){
+                        count_i = count_i + 1;
+                        count_j = 0;
+                    }
+                    my_arr[count_i][count_j] = this.arr[i][j];
+                    count_j = count_j + 1;
+                    //System.out.println("s_i = " + s_i + "  s_j = "  + s_j +" i = " + i + " j = " + j);
+                }
             }
-            if(count_j == arr.length - 1){ count_i++; count_j = 0; }
         }
-        Matrix m1 = Matrix.create(arr);
+
+        Matrix m1 = Matrix.create(my_arr);
         return m1;
     }
-
+    private void minus1 (){
+            for(int i = 0; i < arr.length; i++){
+                for(int j = 0; j < arr.length; j++){
+                    this.arr[i][j]= this.arr[i][j] * (-1);
+                }
+            }
+            this.show();
+        }
     //////////////////////////////////////////////////////
     Matrix  inverse_matrix(){
         int[][] arr =  new int[this.arr.length][this.arr.length];
-        int count = 0;
+        int count = 1;
         for(int i = 0; i < arr.length; i++){
             for(int j = 0; j < arr.length; j++){
-                count = i+j % 2 == 0 ?  1 : -1;
-                arr[i][j] = count*(algebraic_supplement_help(i,j)).determinant();
+                count = (i+j) % 2 == 0 ?  1 : -1;
+                arr[i][j] = count * (algebraic_supplement_help(i,j)).determinant();
             }
         }
         Matrix m = Matrix.create(arr);
+        m.transpose();
+        m.minus1();
         return m;
     }
 
-
-    Matrix  inverse_matrix(){
-        int[][] arr =  new int[this.arr.length][this.arr.length];
-        int count = 0;
-        for(int i = 0; i < arr.length; i++){
-            for(int j = 0; j < arr.length; j++){
-                count = i+j % 2 == 0 ?  1 : -1;
-                arr[i][j] = count*(algebraic_supplement_help(i,j)).determinant();
-            }
-        }
-        Matrix m = Matrix.create(arr);
-        return m;
-    }
     //////////////////////////////////////////Get//////////////////////////
     public int getLength() {
         return this.lenght;

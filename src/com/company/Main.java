@@ -11,5 +11,6 @@ public class Main {
         };
         Matrix m3 = Matrix.create(arr);
         m3.inverse_matrix();
+       // m3.algebraic_supplement_help(2,2);
     }
 }
