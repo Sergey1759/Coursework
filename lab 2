@@ -1,0 +1,73 @@
+package com.company;
+
+
+
+
+
+
+public class Main {
+    static  int sum(int[] ar){
+        int sum=0;
+        int indexFirst=-1;
+        int indexLast=-1;
+        for (int i = 0; i <ar.length ; i++) {
+            if(ar[i]==0 && indexFirst==-1){
+                indexFirst=i;
+            }else {
+                if(ar[i]==0){
+                    indexLast=i;
+                }
+            }
+        }
+        System.out.println(indexFirst +" "+indexLast);
+        return sum;
+    }
+
+
+    public static int dobutok(int[] arr){
+        int dob = 0;
+        for(int i = 0; i < arr.length; i++){
+            if(i % 2 == 0) dob *= arr[i];
+        }
+        return dob;
+    };
+
+//    public static void zavdanna_1_2(int[] arr){
+//        for(int i = help_1_2(arr,'>'); i <)
+//    };
+
+    public static int help_1_2(int[] arr,char c){
+        int start = 0;
+        int end = 0;
+
+        if(c == '<') {
+            start = arr.length;
+        } else if(c == '>') {
+            end = arr.length;
+        } else {
+            System.out.println("eror");
+        }
+
+        int index = 0;
+
+        while (arr[start] == 0 || start == end){
+            index = start;
+
+            if(c == '<') {
+                start--;
+            } else if(c == '>') {
+                start++;
+            }
+        }
+        return index;
+
+    };
+
+
+    public static void main(String[] args) {
+        int[] arr = {5, 1,0, -4, 2, 3, -68,0, -1, 7,0};
+        sum(arr);
+
+
+    }
+}
