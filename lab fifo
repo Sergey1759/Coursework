@@ -1,0 +1,98 @@
+package com.company;
+
+public class myFIFO {
+    private int head;
+    private int arr[];
+    private int max_size;
+    int now;
+    int quantity;
+    int tail;
+    int empty = -10;
+
+    public myFIFO(int max_size) {
+        this.head = empty;
+        this.now = empty;
+        this.tail = empty;
+        this.quantity = 0;
+        this.max_size = max_size;
+        this.arr = new int[max_size];
+        setEmpty(this.arr);
+    }
+    void add(int elem){
+        if(getEmpty() == true || this.head == empty) {this.head = 0;}
+        if(max_size == quantity){
+            expansion();
+            added(elem);
+        } else if(quantity < max_size){
+            System.out.println("!!!!!!! now1 = " + this.now);
+            if(this.head > 0 && this.now+1 == max_size){ // getHead() != empty !!!!!!!!!!!!!!
+                System.out.println("!!!!!!! now2 = " + this.now);
+                this.now = -1;
+            } else {
+                added(elem);
+            }
+        }
+    }
+    void remove(){
+        if(this.arr[this.head] != empty){
+            System.out.println("remove "+ this.arr[head]);
+            this.arr[this.head] = empty;
+            System.out.println(this.head);
+            this.head++;
+            System.out.println(this.head);
+            this.quantity--;
+        } else {
+            emptyInstanceVariable();
+        }
+    }
+    void expansion(){
+        int[] buf_arr = new int[max_size*=1.5];
+        setEmpty(buf_arr);
+        copyArray(this.arr,buf_arr);
+        this.arr = new int[max_size];
+        setEmpty(this.arr);
+        copyArray(buf_arr,this.arr);
+        System.out.println("arr.length = " + this.arr.length);
+    }
+    void showArr(){
+        for(int i = 0; i < this.arr.length; i++){
+            System.out.println(arr[i]);
+        }
+    }
+    void showInstanceVariable(){
+        System.out.println("////////");
+        System.out.println("head : " + head);
+        System.out.println("max_size : " + max_size);
+        System.out.println("now : " + now);
+        System.out.println("quantity : " + quantity);
+        System.out.println("tail : " + tail);
+        System.out.println("////////");
+    }
+    void added(int elem){
+        if(this.now == empty || getEmpty() == true) {emptyInstanceVariable(); this.now = -1;};
+        this.arr[++this.now] = elem;
+        this.quantity++;
+        this.tail = this.now;
+        System.out.println("added "+ elem);
+        System.out.println("this.tail = " + this.tail);
+    }
+    void setEmpty(int[] arr){
+        for (int i = 0; i < arr.length; i++){
+            arr[i] = empty;
+        }
+    }
+    void copyArray(int[] fromArr, int[] toArr){
+        for(int i = 0; i < fromArr.length; i++){
+            toArr[i] = fromArr[i];
+        }
+    }
+    boolean getEmpty(){
+        return quantity == 0 ? true : false;
+    }
+    void emptyInstanceVariable(){
+        this.head = empty;
+        this.now = empty;
+        this.tail = empty;
+        this.quantity = 0;
+    }
+}
