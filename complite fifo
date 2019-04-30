@@ -1,0 +1,94 @@
+package com.company;
+
+public class myFIFO {
+    private int head;
+    private int arr[];
+    private int max_size;
+    int now;
+    int quantity;
+    int tail;
+    int empty = -10;
+
+    public myFIFO(int max_size) {
+        this.head = empty;
+        this.now = empty;
+        this.tail = empty;
+        this.quantity = 0;
+        this.max_size = max_size;
+        this.arr = new int[max_size];
+        setEmpty(this.arr);
+    }
+    void remove(){
+        if(this.quantity > 0){
+            this.arr[this.head] = empty;
+            this.quantity--;
+            if(this.head != max_size){
+                this.head++;
+                if(this.head == max_size) this.head = 0;
+            }
+        }else {
+            System.out.println("Error : empty array");
+        }
+    }
+    void add(int elem){
+        if(this.now == empty) this.now = 0;
+        if(this.quantity == this.max_size){ 
+            this.now = max_size;
+            expansion();
+            added(elem);
+        } else if (this.quantity < this.max_size){
+            if(this.head != 0 && this.now == this.max_size){
+                this.now = 0;
+                added(elem);
+            } else {
+                if(this.head == empty) this.head = 0;
+                if(this.now == max_size) this.now = 0;
+                    added(elem);
+            }
+        }
+    }
+
+    void expansion(){
+        int[] buf_arr = new int[max_size];
+        setEmpty(buf_arr);
+        for(int i = 0; i < this.arr.length; i++){   //copy array
+            buf_arr[i] = this.arr[i];
+        }
+        this.arr = new int[max_size*=1.5];
+        setEmpty(this.arr);
+        int i = 0;
+        while (i < buf_arr.length){
+            this.arr[i] = buf_arr[this.head++];     // sort array
+            if(head == buf_arr.length) this.head = 0;
+            i++;
+        }
+        this.head = 0;
+        this.tail = buf_arr.length;
+    }
+    void showArr(){
+        for(int i = 0; i < this.arr.length; i++){
+            System.out.println(arr[i]);
+        }
+    }
+    void showInstanceVariable(){
+        System.out.println("////////");
+        System.out.println("head : " + head);
+        System.out.println("max_size : " + max_size);
+        System.out.println("now : " + now);
+        System.out.println("quantity : " + quantity);
+        System.out.println("tail : " + tail);
+        System.out.println("////////");
+    }
+    void setEmpty(int[] arr){
+        for (int i = 0; i < arr.length; i++){
+            arr[i] = empty;
+        }
+    }
+
+    void added(int elem){
+        this.arr[now] = elem;
+        this.tail = this.now;
+        this.now++;
+        this.quantity++;
+    }
+}
