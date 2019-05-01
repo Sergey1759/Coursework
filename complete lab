@@ -1,0 +1,145 @@
+package com.company;
+
+public class Main {
+    static void meth_3_1(int[][] arr){
+        System.out.println("start meth_3_1");
+        int count = 0;
+        for(int i = 0; i < arr.length; i++){
+            for(int j = 0; j < arr.length; j++){
+                if( arr[i][j] == 0 && i == count){
+                    System.out.println("in line " + i + " there is 0");
+                }
+            }
+            count++;
+        }
+        System.out.println("finish meth_3_1");
+        System.out.println();
+    }
+
+    static void meth_3_2(int[][] arr){
+        System.out.println("start meth_3_2");
+        int max = 0;
+        int amount_row = -1;
+        for(int i = 0; i < arr.length; i++){
+            int buf = helper_meth_3_2(arr[i]);
+            if(buf > max){
+                max = buf;
+                amount_row = i;
+            };
+        }
+        if(amount_row >= 0){
+            System.out.println("in " + amount_row + " lines of the most identical numbers");
+        } else {
+            System.out.println("There are no identical numbers on any line");
+        }
+        System.out.println("finish meth_3_1");
+        System.out.println();
+    }
+
+    static int helper_meth_3_2(int[] arr){
+        int count = 0;
+        for(int i = 0; i < arr.length; i++){
+            for(int j = i+1; j < arr.length-1; j++){
+                if(arr[i] == arr[j] && i != j){
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    /////////////////////////////////////////////---------------------------------
+    static  int sum(int[] ar){
+        int indexFirst=-1;
+        int indexLast=-1;
+        for (int i = 0; i <ar.length ; i++) {
+            if(ar[i]==0 && indexFirst==-1){
+                indexFirst=i;
+            }else {
+                if(ar[i]==0){
+                    indexLast=i;
+                }
+            }
+        }
+        //System.out.println(indexFirst +" "+indexLast);
+        return summa(ar,indexFirst,indexLast);
+    }
+
+
+    public static int dobutok(int[] arr){
+        int dob = 1;
+        for(int i = 0; i < arr.length; i++){
+            if(i % 2 == 0) dob *= arr[i];
+        }
+        return dob;
+    };
+    public static int summa(int[] arr, int start, int end){
+        int sum = 0;
+        for(int i = start; i <= end; i++){
+            sum += arr[i];
+        }
+        return sum;
+    };
+
+    public static void lazysort(int[] arr){
+        int[] buf = new int[arr.length];
+        int count = 0;
+        int start = 0;
+        int end = arr.length - 1;
+        for(int i = 0; i < arr.length; i++){
+            if(arr[i] >= 0){
+                buf[start++] = arr[i];
+            } else {
+                buf[end--] = arr[i];
+            }
+        }
+        for(int i = 0; i < buf.length; i++) {
+            System.out.print(buf[i] + " ");
+        }
+    }
+    public static void matrix_4(int[][] arr){
+        int i = 0;
+        int j = 0;
+        int lenght = arr.length;
+        for(int m = 0; m < lenght; m++){
+            for (int k = 0; k < lenght; k++){
+                arr[m][k] = 0;
+            }
+        }
+        while (i < arr.length){
+            j = 0;
+            if(i > 0) {j = i ; lenght--;}
+            while (j < lenght){
+                arr[i][j] = 1;
+                j++;
+            }
+            i++;
+        }
+        for(int z = 0; z < arr.length; z++){
+            for (int x = 0; x < arr.length; x++){
+                System.out.print(arr[z][x] + " ");
+            }
+            System.out.println("");
+        }
+    }
+
+
+
+    public static void main(String[] args) {
+        int[][] arr = { {1,0,3,4},
+                        {2,0,1,4},
+                        {3,6,3,4},
+                        {9,9,9,9}};
+        int[] arr1 = {5, 0,1, -4, 0, -3, -8,0, -1, 7,1,11,1,1};
+        int [][] arr4= new int[4][4];
+        int [][] arr5= new int[5][5];
+        int [][] arr6= new int[6][6];
+        int [][] arr7= new int[7][7];
+        //System.out.println(sum(arr1));
+        //System.out.println(dobutok(arr1));
+        //meth_3_1(arr);
+        //meth_3_2(arr);
+        //lazysort(arr1);
+        matrix_4(arr7);
+
+    }
+}
